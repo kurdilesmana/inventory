@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <?php $this->load->view('head'); ?>
+  <?php $this->load->view('layout/head'); ?>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini fixed">
 <!-- Site wrapper -->
 <div class="wrapper">
 
   <header class="main-header">
-    <?php $this->load->view('main_header'); ?>
+    <?php $this->load->view('layout/main_header'); ?>
   </header>
 
   <!-- =============================================== -->
@@ -21,7 +21,7 @@
       <!-- search form -->
       <!-- /.search form -->
       <!-- sidebar menu: : style can be found in sidebar.less -->
-      <?php $this->load->view('sidebar_menu'); ?>
+      <?php $this->load->view('layout/sidebar_menu'); ?>
     </section>
     <!-- /.sidebar -->
   </aside>
@@ -32,24 +32,24 @@
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <?php $this->load->view('content_header'); ?>
+      <?php $this->load->view('layout/content_header'); ?>
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <?php $this->load->view($content_view); ?>
+      <?php echo isset($content)?$content:'no_content'; ?>
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
 
   <footer class="main-footer">
-    <?php $this->load->view('footer'); ?>
+    <?php $this->load->view('layout/footer'); ?>
   </footer>
 
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
-    <?php $this->load->view('control_sidebar'); ?>
+    <?php $this->load->view('layout/control_sidebar'); ?>
   </aside>
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
@@ -58,6 +58,7 @@
 </div>
 <!-- ./wrapper -->
 
-<?php $this->load->view('js'); ?>
+<?php $this->load->view('layout/js'); ?>
+<?php echo isset($script)?$script:'no_content'; ?>
 </body>
 </html>

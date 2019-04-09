@@ -6,8 +6,9 @@ class Dashboard extends MY_Controller
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('login/login_m');
-    if(!$this->login_m->logged_id())
+		$this->load->helper('url');
+		$this->load->sharedModel('LoginModel');
+    if(!$this->LoginModel->logged_id())
     {
       redirect(base_url().'login');
     }   
@@ -15,9 +16,12 @@ class Dashboard extends MY_Controller
 
 	public function index()
 	{
-		$data['title'] = 'Dashboard';
-		$data['content_view'] = 'Dashboard/dashboard';
-		$this->template->index($data);
+		$tdata['title'] = 'Dashboard';
+		$tdata['caption'] = 'Informasi Data Invent';
+		
+		## LOAD LAYOUT ##	
+		$ldata['content'] = $this->load->view($this->router->class.'/index',$tdata, true);
+		$this->load->sharedView('base', $ldata);
 	}
 
 	public function logout()

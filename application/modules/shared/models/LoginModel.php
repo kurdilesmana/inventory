@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Login_m extends CI_Model
+class LoginModel extends CI_Model
 {
 	//fungsi cek session
 	function logged_id()

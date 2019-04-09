@@ -1,8 +1,13 @@
       <ul class="sidebar-menu" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="<?php echo $this->uri->segment(2) == '' ? 'active': '' ?>">
-          <a href="<?php base_url(); ?>dashboard">
+        <li class="<?php echo $this->uri->segment(1) == 'dashboard' ? 'active': '' ?>">
+          <a href="<?php echo base_url(); ?>dashboard">
             <i class="fa fa-dashboard"></i> <span>Dashboard</span>
+          </a>
+        </li>
+        <li class="<?php echo $this->uri->segment(1) == 'users' ? 'active': '' ?>">
+          <a href="<?php echo base_url(); ?>users">
+            <i class="fa fa-user"></i> <span>Users</span>
           </a>
         </li>
         <li class="treeview">

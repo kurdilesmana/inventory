@@ -6,15 +6,15 @@ class Login extends MY_Controller {
   public function __construct()
   {
     parent::__construct();
-    $this->load->model('login_m');
+    $this->load->sharedModel('LoginModel');
   }
 
   function index()
   {
-    if($this->login_m->logged_id())
+    if($this->LoginModel->logged_id())
     {
       //jika memang session sudah terdaftar, maka redirect ke halaman dahsboard
-      redirect(base_url()."dashboard");
+      redirect(base_url().'dashboard');
     } else {
 	    //jika session belum terdaftar
 
@@ -33,7 +33,7 @@ class Login extends MY_Controller {
         $password = MD5($this->input->post('password', TRUE));
 
 	      //checking data via model
-	      $checking = $this->login_m->check_login(array('username' => $username), array('password' => $password));
+	      $checking = $this->LoginModel->check_login(array('username' => $username), array('password' => $password));
 
 	      //jika ditemukan, maka create session
 	      if ($checking != FALSE) {
@@ -47,7 +47,7 @@ class Login extends MY_Controller {
               //set session userdata
               $this->session->set_userdata($session_data);
 
-              redirect('dashboard/');
+              redirect(base_url().'dashboard');
 	        }
         } else {		
           $data['error'] = '<div class="alert alert-danger" style="margin-top: 3px">
