@@ -6,7 +6,6 @@ class Login extends MY_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->library('session');
 		$this->load->sharedModel('LoginModel');
 	}
 
