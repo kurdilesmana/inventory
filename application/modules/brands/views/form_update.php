@@ -15,6 +15,13 @@
             <div class="header"><b><i class="fa fa-exclamation-circle"></i> ERROR</b> <?php echo($error); ?></div>
           </div>
           <?php } ?>
+           <div class="form-group <?= form_error('id_brands') ? 'has-error' : '' ?>"hidden>
+            <label for="id_brands" class="col-sm-3 control-label">id brands</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" name="id_brands" placeholder="Id Brands" value="<?php echo isset($lists)?$lists['id_brands']:set_value('id_brands'); ?>">
+            </div>
+            <span class="help-block"><?php echo form_error('id_brands'); ?></span>
+          </div>
           <div class="form-group <?= form_error('brands_code') ? 'has-error' : '' ?>">
             <label for="brands_code" class="col-sm-3 control-label">Kode Brands</label>
             <div class="col-sm-6">

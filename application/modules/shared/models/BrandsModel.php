@@ -50,6 +50,7 @@ class BrandsModel extends CI_Model
 
  public function updateData($data=array())
   {
+    $id_brands       = $data["id_brands"];
     $brands_code       = $data["brands_code"];
     $brands_name       = $data["brands_name"];
     $description       = $data["description"];

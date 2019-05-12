@@ -25,6 +25,7 @@ class Brands extends MY_Controller
 		## LOAD LAYOUT ##	
 		$ldata['content'] = $this->load->view($this->router->class.'/index',$tdata, true);
 		$ldata['script'] = $this->load->view($this->router->class.'/index_js',$tdata, true);
+
 		$this->load->sharedView('base', $ldata);
 	}
 
@@ -98,6 +99,7 @@ class Brands extends MY_Controller
 	    //cek validasi
       if ($this->form_validation->run() == TRUE) {
         //get data dari FORM
+        $id_brands = $this->input->post("id_brands", TRUE);
         $brands_code = $this->input->post("brands_code", TRUE);
         $brands_name = $this->input->post("brands_name", TRUE);
         $description = MD5($this->input->post('description', TRUE));
@@ -105,6 +107,7 @@ class Brands extends MY_Controller
 
 	      //insert data via model
 	      $doUpdate = $this->BrandsModel->updateData(array(
+	      	'id_brands' => $id_brands,
 	      	'brands_code' => $brands_code,
 	      	'brands_name' => $brands_name,
 	      	'description' => $description,
