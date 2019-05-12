@@ -104,7 +104,7 @@ class Brands extends MY_Controller
         $status = $this->input->post('status', TRUE);
 
 	      //insert data via model
-	      $doInsert = $this->BrandsModel->entriData(array(
+	      $doUpdate = $this->BrandsModel->updateData(array(
 	      	'brands_code' => $brands_code,
 	      	'brands_name' => $brands_name,
 	      	'description' => $description,
@@ -112,9 +112,7 @@ class Brands extends MY_Controller
 	      ));
 
 	      //Pengecekan input data user
-	      if ($doInsert == 'exist') {
-	      	$tdata['error'] = 'Username sudah terdaftar!';
-	      } elseif ($doInsert == 'failed') {
+	      if ($doInsert == 'failed') {
 	      	$tdata['error'] = 'Data tidak bisa ditambahkan!';
 	      } else {
 	      	$this->session->set_flashdata('success', 'Berhasil disimpan');
@@ -124,10 +122,16 @@ class Brands extends MY_Controller
 	  }
 
 	  ## GET USER ##
-		$tdata['lists'] = $this->BrandsModel->getById($id);
-
+	  $brandsData = $this->BrandsModel->getById($id);
+	   $tdata['lists'] = array(
+			'id_brands' => $brandsData->id_brands,
+			'brands_code' => $brandsData->brands_code,
+	      	'brands_name' => $brandsData->brands_name,
+	      	'description' => $brandsData->description,
+	      	'status' => $brandsData->status
+	    );
 		## LOAD LAYOUT ##	
-		$ldata['content'] = $this->load->view($this->router->class.'/form',$tdata, true);
+		$ldata['content'] = $this->load->view($this->router->class.'/form_update',$tdata, true);
 		$ldata['script'] = $this->load->view($this->router->class.'/form_js',$tdata, true);
 		$this->load->sharedView('base', $ldata);
 	}

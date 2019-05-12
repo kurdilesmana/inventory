@@ -48,6 +48,31 @@ class BrandsModel extends CI_Model
     }
   }
 
+ public function updateData($data=array())
+  {
+    $brands_code       = $data["brands_code"];
+    $brands_name       = $data["brands_name"];
+    $description       = $data["description"];
+    $status            = $data["status"];
+
+    $sql_user = "brands_code = '".$this->db->escape_str($brands_code)."', brands_name = '".$this->db->escape_str($brands_name)."', description = '".$this->db->escape_str($description)."', status = '".$this->db->escape_str($status)."'";
+    
+
+    $doUpdate = $this->db->query("
+    UPDATE ".$this->_table."
+    SET 
+      ".$sql_user."
+    WHERE 
+      id_brands = ".$id_brands."
+    ");
+
+    if($doUpdate){    
+      return 'success';
+    }else{
+      return 'failed';
+    }
+  }
+
   private function __checkBrandsCode($brands_code){    
     $q = $this->db->query("
       SELECT
