@@ -82,7 +82,7 @@ class Category extends MY_Controller
 		$tdata['caption'] = 'Ubah Data Category';
 
 		$id = intval($_GET['id']);
-		if (!isset($id)) redirect(base_url().'users');
+		if (!isset($id)) redirect(base_url().'Category');
 
 		if ($_POST) {
 //set form validation
@@ -98,34 +98,39 @@ class Category extends MY_Controller
 	    //cek validasi
       if ($this->form_validation->run() == TRUE) {
         //get data dari FORM
+        $id_category = $this->input->post("id_category", TRUE);
         $category_name = $this->input->post("category_name", TRUE);
         $description = $this->input->post('description', TRUE);
         $status = $this->input->post('status', TRUE);
 
 	      //insert data via model
-	      $doInsert = $this->CategoryModel->entriData(array(
+	      $doUpdate = $this->CategoryModel->updateData(array(
+	      	'id_category' => $id_category,
 	      	'category_name' => $category_name,
 	      	'description' => $description,
 	      	'status' => $status,
 	      ));
 
-	      //Pengecekan input data user
-	      if ($doInsert == 'exist') {
-	      	$tdata['error'] = 'Username sudah terdaftar!';
-	      } elseif ($doInsert == 'failed') {
+	      //Pengecekan input data category
+	      if ($doInsert == 'failed') {
 	      	$tdata['error'] = 'Data tidak bisa ditambahkan!';
 	      } else {
-	      	$this->session->set_flashdata('success', 'Berhasil disimpan');
-      		redirect(base_url().'users');
+	      	$this->session->set_flashdata('success', 'Data Berhasil di Ubah');
+      		redirect(base_url().'category');
 	      }
 	    }
 	  }
 
-	  ## GET USER ##
-		$tdata['lists'] = $this->UserModel->getById($id);
-
+	  ## GET USER #### GET USER ##
+		$userData = $this->CategoryModel->getById($id);
+		$tdata['lists'] = array(
+			'id_category' => $userData->id_category,
+			'category_name' => $userData->category_name, 
+			'description' => $userData->description, 
+			'status' => $userData->status,  
+		);
 		## LOAD LAYOUT ##	
-		$ldata['content'] = $this->load->view($this->router->class.'/form',$tdata, true);
+		$ldata['content'] = $this->load->view($this->router->class.'/form_update',$tdata, true);
 		$ldata['script'] = $this->load->view($this->router->class.'/form_js',$tdata, true);
 		$this->load->sharedView('base', $ldata);
 	}

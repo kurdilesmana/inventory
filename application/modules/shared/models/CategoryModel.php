@@ -47,6 +47,31 @@ class CategoryModel extends CI_Model
     }
   }
 
+public function updateData($data=array())
+  {
+    $id_category       = $data["id_category"];
+    $category_name     = $data["category_name"];
+    $description       = $data["description"];
+    $status            = $data["status"];
+
+    $sql_user = "category_name = '".$this->db->escape_str($category_name)."', description = '".$this->db->escape_str($description)."', status = '".$this->db->escape_str($status)."'";
+
+    $doUpdate = $this->db->query("
+    UPDATE ".$this->_table."
+    SET 
+      ".$sql_user."
+    WHERE 
+      id_category = ".$id_category."
+    ");
+
+    if($doUpdate){    
+      return 'success';
+    }else{
+      return 'failed';
+    }
+  }
+
+
   private function __checkCategory($category_name){    
     $q = $this->db->query("
       SELECT
