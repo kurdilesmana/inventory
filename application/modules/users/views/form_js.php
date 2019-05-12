@@ -7,7 +7,7 @@
 	    ]
     });
     // Set Selected data
-    $('#select2').val(<?php echo isset($lists)?$lists->role:''; ?>); // Select the option with a value of data
+    $('#select2').val(<?php echo isset($lists)?$lists['role']:''; ?>); // Select the option with a value of data
 		$('#select2').trigger('change'); // Notify any JS components that the value changed
 	});
 </script>

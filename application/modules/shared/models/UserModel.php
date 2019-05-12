@@ -36,7 +36,7 @@ class UserModel extends CI_Model
   {
     $name     = $data["name"];
     $username = $data["username"];
-    $password = $data["password"];
+    $password = md5($data["password"]);
     $role     = $data["role"];
 
     $check = $this->__checkUserId($username);
@@ -45,6 +45,47 @@ class UserModel extends CI_Model
     } else {
       $this->db->insert($this->_table, $data);
       return 'success';
+    }
+  }
+
+  public function updateData($data=array())
+  {
+    $id       = $data["id"];
+    $name     = $data["name"];
+    $username = $data["username"];
+    $password = $data["password"];
+    $role     = $data["role"];
+
+    $thisUserPass = $this->__getUserPassword(array('id' => $id));
+
+    $oldPass   = $thisUserPass['password'];
+    $oldUserid = $thisUserPass['username'];
+    
+    if($username != $oldUserid){
+      $check = $this->__checkUserId($username);
+      if($check > 0){
+        return 'exist';
+      }     
+    }
+
+    if ($password) {
+      $sql_user = "name = '".$this->db->escape_str($name)."', username = '".$this->db->escape_str($username)."', role = '".$this->db->escape_str($role)."', password = '".$this->db->escape_str(md5($password))."'";
+    } else {
+      $sql_user = "name = '".$this->db->escape_str($name)."', username = '".$this->db->escape_str($username)."', role = '".$this->db->escape_str($role)."'";
+    }
+
+    $doUpdate = $this->db->query("
+    UPDATE ".$this->_table."
+    SET 
+      ".$sql_user."
+    WHERE 
+      id_user = ".$id."
+    ");
+
+    if($doUpdate){    
+      return 'success';
+    }else{
+      return 'failed';
     }
   }
 
@@ -61,4 +102,27 @@ class UserModel extends CI_Model
     $result = $q->num_rows();
     return $result;
   }
+
+  private function __getUserPassword($params = array()){
+    $id     = isset($params["id"])?$params["id"]:'';
+    $username = isset($params["username"])?$params["username"]:'';
+    $conditional = "";
+    
+    if($id != '') $conditional = "WHERE id_user = '".$id."'";
+    if($username != '') $conditional = "WHERE username = '".$this->db->escape_str($username)."'";
+    
+    $q = $this->db->query("
+      SELECT
+        id_user
+        ,username
+        ,password
+        ,role
+      FROM
+        ".$this->_table."
+      ".$conditional."
+    ");
+    $result = $q->first_row('array');
+    return $result;
+  }
+  
 }

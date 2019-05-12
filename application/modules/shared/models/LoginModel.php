@@ -6,7 +6,7 @@ class LoginModel extends CI_Model
 	//fungsi cek session
 	function logged_id()
 	{
-		return $this->session->userdata('user_id');
+		return $this->session->userdata('user_name');
 	}
 
 	//fungsi check login
