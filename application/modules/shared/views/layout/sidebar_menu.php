@@ -1,15 +1,38 @@
       <ul class="sidebar-menu" data-widget="tree">
-        <li class="header">MAIN NAVIGATION</li>
-        <li class="<?php echo $this->uri->segment(1) == 'dashboard' ? 'active': '' ?>">
-          <a href="<?php echo base_url(); ?>dashboard">
-            <i class="fa fa-dashboard"></i> <span>Dashboard</span>
-          </a>
-        </li>
-        <li class="<?php echo $this->uri->segment(1) == 'users' ? 'active': '' ?>">
-          <a href="<?php echo base_url(); ?>users">
-            <i class="fa fa-user"></i> <span>Users</span>
-          </a>
-        </li>
+        <!-- Query Header Menu -->
+        <?php 
+          $queryHeaderMenu = "SELECT * FROM user_header_menu";
+          $headerMenu = $this->db->query($queryHeaderMenu)->result_array();
+        ?>
+
+        <!-- Looping Header Menu -->
+        <?php foreach ($headerMenu as $Hm) { ?>
+        <li class="header"><?= strtoupper($Hm['header_menu']) ?></li>
+
+        <!-- Query Menu -->
+        <?php
+          $headerID = $Hm['id'];
+          $roleID = $this->session->userdata('user_role');
+          $queryMenu = "SELECT * 
+                        FROM user_menu m 
+                        INNER JOIN user_access_menu am ON m.id = am.menu_id
+                        WHERE m.header_id = $headerID
+                        AND m.is_active = 1
+                        AND am.role_id = $roleID";
+          $menu = $this->db->query($queryMenu)->result_array();
+        ?>
+
+        <?php foreach ($menu as $m) { ?>
+        <li class="<?php echo $this->uri->segment(1) == $m['url'] ? 'active': '' ?>">
+        <a href="<?php echo base_url($m['url']); ?>">
+          <i class="<?php echo $m['icon']; ?>"></i><span><?php echo $m['title']; ?></span>
+        </a>
+        </li>  
+        <?php } ?>
+        <!-- End Foreach Menu -->
+
+        <?php } ?> 
+        <!-- End Foreach Header Menu -->
         <li class="treeview">
           <a href="#">
             <i class="fa fa-files-o"></i>

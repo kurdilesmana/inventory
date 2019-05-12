@@ -23,18 +23,18 @@
         { "data": "username" },  // Tampilkan username
         { "render": function ( data, type, row ) {  // Tampilkan role
           var role = ""
-          if(row.role == 1){ // Jika role 1
-          	role = 'Admin' // Set Admin
+          if (row.role == 1) { // Jika role 1
+          	role = 'Super Admin' // Set Admin
           } else { // Jika bukan 1
-            role = 'Super Admin' // Set role
+            role = 'Admin' // Set role
           }
             return role; // Tampilkan jenis kelaminnya
           }
         },
-        { sWidth: "17%", 
+        { sWidth: "15%", 
         	"render": function ( data, type, row ) { // Tampilkan kolom aksi
 	          var html  = "<button class='btn btn-sm btn-default edit_btn'><i class='fa fa-edit'></i> Edit</button>"
-	          html += " | <button class='btn btn-sm btn-danger delete_btn'><i class='fa fa-trash'></i> Hapus</button>"
+	          html += " | <button class='btn btn-sm btn-danger' data-toggle='modal' data-target='#modalHapus'><i class='fa fa-trash'></i> Hapus</button>"
 	          return html
          	}
         },
@@ -44,5 +44,6 @@
       var data_row = tabel.row($(this).closest('tr')).data();
       $.redirect('<?php echo base_url().$this->router->class.'/update'; ?>', {'id': data_row['id_user']}, 'GET');
     });
+    
   });
 </script>
